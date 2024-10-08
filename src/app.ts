@@ -1,6 +1,6 @@
 import fastify from 'fastify'
-import { env } from 'process'
 import { ZodError } from 'zod'
+import { env } from './env'
 
 export const app = fastify()
 
