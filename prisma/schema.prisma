@@ -42,9 +42,9 @@ model Pet {
   age         String
   size        String
   environment String
-  org_id      String
 
-  org Org @relation(fields: [org_id], references: [id])
+  org    Org    @relation(fields: [org_id], references: [id])
+  org_id String
 
   @@map("pets")
 }
