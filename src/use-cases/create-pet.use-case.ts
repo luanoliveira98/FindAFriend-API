@@ -3,7 +3,7 @@ import { PetsRepository } from '@/repositories/pets.repository.interface'
 import { Pet } from '@prisma/client'
 import { ResourceNotFoundError } from './errors/resource-not-found.error'
 
-interface RegisterPetUseCaseRequest {
+interface CreatePetUseCaseRequest {
   name: string
   about: string
   age: string
@@ -13,11 +13,11 @@ interface RegisterPetUseCaseRequest {
   orgId: string
 }
 
-interface RegisterPetUserCaseResponse {
+interface CreatePetUserCaseResponse {
   pet: Pet
 }
 
-export class RegisterPetUseCase {
+export class CreatePetUseCase {
   constructor(
     private readonly petsRepository: PetsRepository,
     private readonly orgsRepository: OrgsRepository,
@@ -31,7 +31,7 @@ export class RegisterPetUseCase {
     energyLevel,
     environment,
     orgId,
-  }: RegisterPetUseCaseRequest): Promise<RegisterPetUserCaseResponse> {
+  }: CreatePetUseCaseRequest): Promise<CreatePetUserCaseResponse> {
     const org = await this.orgsRepository.findById(orgId)
 
     if (!org) {
