@@ -1,25 +1,36 @@
-import { PetsRepository } from '@/repositories/pets.repository.interface'
-import { Pet } from '@prisma/client'
-import { ResourceNotFoundError } from './errors/resource-not-found.error'
+import { Org } from '@prisma/client'
+import { OrgsRepository } from '@/repositories/orgs.repository.interface'
+import { InvalidCredentialsError } from './errors/invalid-credentials.error'
+import { compare } from 'bcryptjs'
 
-interface GetPetUseCaseRequest {
-  id: string
+interface AuthenticateUseCaseRequest {
+  email: string
+  password: string
 }
 
-interface GetPetUserCaseResponse {
-  pet: Pet
+interface AuthenticateUserCaseResponse {
+  org: Org
 }
 
-export class GetPetUseCase {
-  constructor(private readonly petsRepository: PetsRepository) {}
+export class AuthenticateUseCase {
+  constructor(private readonly orgsRepository: OrgsRepository) {}
 
-  async execute({ id }: GetPetUseCaseRequest): Promise<GetPetUserCaseResponse> {
-    const pet = await this.petsRepository.findById(id)
+  async execute({
+    email,
+    password,
+  }: AuthenticateUseCaseRequest): Promise<AuthenticateUserCaseResponse> {
+    const org = await this.orgsRepository.findByEmail(email)
 
-    if (!pet) {
-      throw new ResourceNotFoundError()
+    if (!org) {
+      throw new InvalidCredentialsError()
     }
 
-    return { pet }
+    const doesPasswordMatches = await compare(password, org.password_hash)
+
+    if (!doesPasswordMatches) {
+      throw new InvalidCredentialsError()
+    }
+
+    return { org }
   }
 }
