@@ -5,6 +5,16 @@ import { randomUUID } from 'crypto'
 export class InMemoryOrgsRepository implements OrgsRepository {
   public items: Org[] = []
 
+  async findById(id: string) {
+    const org = this.items.find((item) => item.id === id)
+
+    if (!org) {
+      return null
+    }
+
+    return org
+  }
+
   async create(data: Prisma.OrgCreateInput) {
     const org = {
       id: data.id ?? randomUUID(),
@@ -18,21 +28,9 @@ export class InMemoryOrgsRepository implements OrgsRepository {
       city: data.city,
       neighborhood: data.neighborhood,
       street: data.street,
-      latitude: new Prisma.Decimal(data.latitude.toString()),
-      longitude: new Prisma.Decimal(data.longitude.toString()),
     }
 
     this.items.push(org)
-
-    return org
-  }
-
-  async findById(id: string) {
-    const org = this.items.find((item) => item.id === id)
-
-    if (!org) {
-      return null
-    }
 
     return org
   }

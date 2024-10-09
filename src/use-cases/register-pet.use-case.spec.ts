@@ -11,8 +11,8 @@ describe('Register Pet Use Case', () => {
   let orgsRepository: InMemoryOrgsRepository
 
   beforeEach(() => {
-    petsRepository = new InMemoryPetsRepository()
     orgsRepository = new InMemoryOrgsRepository()
+    petsRepository = new InMemoryPetsRepository(orgsRepository)
     sut = new RegisterPetUseCase(petsRepository, orgsRepository)
   })
 
@@ -28,8 +28,6 @@ describe('Register Pet Use Case', () => {
       city: 'São Paulo',
       neighborhood: 'Bela Vista',
       street: 'Av. Paulista, 1471',
-      latitude: -23.5619143,
-      longitude: -46.6587254,
     })
 
     const { pet } = await sut.execute({

@@ -1,9 +1,31 @@
 import { Pet, Prisma } from '@prisma/client'
-import { PetsRepository } from '../pets.repository.interface'
+import { FindAllParams, PetsRepository } from '../pets.repository.interface'
 import { randomUUID } from 'node:crypto'
+import { InMemoryOrgsRepository } from './in-memory-orgs.repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = []
+
+  constructor(private readonly orgsRepository: InMemoryOrgsRepository) {}
+
+  async findAll(params: FindAllParams) {
+    const orgsByCity = this.orgsRepository.items.filter(
+      (org) => org.city === params.city,
+    )
+
+    const pets = this.items
+      .filter((item) => orgsByCity.some((org) => org.id === item.org_id))
+      .filter((item) => (params.age ? item.age === params.age : true))
+      .filter((item) => (params.size ? item.size === params.size : true))
+      .filter((item) =>
+        params.energy_level ? item.energy_level === params.energy_level : true,
+      )
+      .filter((item) =>
+        params.environment ? item.environment === params.environment : true,
+      )
+
+    return pets
+  }
 
   async create(data: Prisma.PetUncheckedCreateInput) {
     const pet = {
