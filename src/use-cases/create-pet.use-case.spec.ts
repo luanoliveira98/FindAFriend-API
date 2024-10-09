@@ -21,7 +21,7 @@ describe('Create Pet Use Case', () => {
       author_name: 'John Doe',
       email: 'john.doe@mail.com',
       whatsapp: '11999999999',
-      password: '123456',
+      password_hash: '123456',
       cep: '01311-927',
       state: 'SP',
       city: 'São Paulo',

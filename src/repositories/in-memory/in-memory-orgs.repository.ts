@@ -32,7 +32,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
       author_name: data.author_name,
       email: data.email,
       whatsapp: data.whatsapp,
-      password: data.password,
+      password_hash: data.password_hash,
       cep: data.cep,
       state: data.state,
       city: data.city,

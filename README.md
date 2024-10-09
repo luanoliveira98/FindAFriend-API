@@ -10,7 +10,7 @@ This is a challenge from Rocketseat's NodeJs course. Development of an API for p
 - [x] It must be possible to list all pets avaiable for adoption in a city
 - [x] It must be possible to filter pets by their characteristics
 - [x] It must be possible to view details of a pet for adoption
-- [ ] It must be possible to register as an ORG
+- [x] It must be possible to register as an ORG
 - [ ] It must be possible to login as an ORG
 
 ### Regras de negócio
