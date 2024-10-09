@@ -70,7 +70,7 @@ describe('Search Pets Use Case', () => {
     })
   })
 
-  it('should be list all pets for a city', async () => {
+  it('should be able to list all pets for a city', async () => {
     const { pets } = await sut.execute({
       city: 'São Paulo',
     })
@@ -86,7 +86,7 @@ describe('Search Pets Use Case', () => {
     ])
   })
 
-  it('should be list all pets for a city and age', async () => {
+  it('should be able to list all pets for a city and age', async () => {
     const { pets } = await sut.execute({
       city: 'São Paulo',
       age: 'young',
@@ -100,7 +100,7 @@ describe('Search Pets Use Case', () => {
     ])
   })
 
-  it('should be list all pets for a city and size', async () => {
+  it('should be able to list all pets for a city and size', async () => {
     const { pets } = await sut.execute({
       city: 'São Paulo',
       size: 'little',
@@ -114,7 +114,7 @@ describe('Search Pets Use Case', () => {
     ])
   })
 
-  it('should be list all pets for a city and energy_level', async () => {
+  it('should be able to list all pets for a city and energy_level', async () => {
     const { pets } = await sut.execute({
       city: 'Rio de Janeiro',
       energy_level: 'low',
@@ -128,7 +128,7 @@ describe('Search Pets Use Case', () => {
     ])
   })
 
-  it('should be list all pets for a city and environment', async () => {
+  it('should be able to list all pets for a city and environment', async () => {
     const { pets } = await sut.execute({
       city: 'Rio de Janeiro',
       environment: 'medium',

@@ -1,21 +1,21 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { RegisterPetUseCase } from './register-pet.use-case'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets.repository'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs.repository'
+import { GetPetUseCase } from './get-pet.use-case'
 import { ResourceNotFoundError } from './errors/resource-not-found.error'
 
-describe('Register Pet Use Case', () => {
-  let sut: RegisterPetUseCase
+describe('Get Pet Use Case', () => {
+  let sut: GetPetUseCase
   let petsRepository: InMemoryPetsRepository
   let orgsRepository: InMemoryOrgsRepository
 
-  beforeEach(() => {
+  beforeEach(async () => {
     orgsRepository = new InMemoryOrgsRepository()
     petsRepository = new InMemoryPetsRepository(orgsRepository)
-    sut = new RegisterPetUseCase(petsRepository, orgsRepository)
+    sut = new GetPetUseCase(petsRepository)
   })
 
-  it('should be able to register a pet', async () => {
+  it('should be able to get a pet details', async () => {
     const org = await orgsRepository.create({
       name: 'Cat Org',
       author_name: 'John Doe',
@@ -29,29 +29,27 @@ describe('Register Pet Use Case', () => {
       street: 'Av. Paulista, 1471',
     })
 
+    const petCreated = await petsRepository.create({
+      name: 'Miu',
+      about: 'So many happy cat',
+      age: 'young',
+      size: 'great',
+      energy_level: 'full',
+      environment: 'great',
+      org_id: org.id,
+    })
+
     const { pet } = await sut.execute({
-      name: 'Estrela',
-      about: 'Really happy cat',
-      age: 'adult',
-      size: 'little',
-      energyLevel: 'low',
-      environment: 'small',
-      orgId: org.id,
+      id: petCreated.id,
     })
 
     expect(pet.id).toEqual(expect.any(String))
   })
 
-  it('should not be able to register a pet when org does not exists', async () => {
+  it('should not be able to get a pet details with a non-existent id', async () => {
     await expect(() =>
       sut.execute({
-        name: 'Estrela',
-        about: 'Really happy cat',
-        age: 'adult',
-        size: 'little',
-        energyLevel: 'low',
-        environment: 'small',
-        orgId: 'non-existent-id',
+        id: 'non-existent-id',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
