@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import request from 'supertest'
 import { createAndAuthenticateOrg } from '@/utils/create-and-authenticate-org'
 
-describe('Register (e2e)', () => {
+describe('Create Pet (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
